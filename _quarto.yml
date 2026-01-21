@@ -14,9 +14,12 @@ book:
     - chapters/04_results.qmd
     - chapters/05_discussion.qmd
     - chapters/06_conclusion.qmd
+    - chapters/07_references.qmd
+  appendices:
     - chapters/appendix_a.qmd
 
 bibliography: bibliography/references.bib
+
 format:
   pdf:
     pdf-engine: pdflatex
