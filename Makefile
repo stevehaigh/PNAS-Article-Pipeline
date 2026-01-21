@@ -1,89 +1,79 @@
-# Makefile for LaTeX/Quarto Dissertation
+# Makefile for Quarto Dissertation
 
-# Main LaTeX file (without extension) - deprecated in favor of Quarto
-MAIN = main
+TARGET = index
+OUTDIR = build
+DATE := $(shell date +%Y-%m-%d)
 
-# LaTeX compiler
-LATEX = pdflatex
-BIBER = biber
+PDF_OUT       = thesis-$(DATE).pdf
+PDF_PRINT_OUT = thesis-$(DATE)-printing.pdf
+DOCX_OUT      = thesis-$(DATE).docx
+EPUB_OUT      = thesis-$(DATE).epub
 
-# Quarto output
-QUARTO_OUT = dissertation.pdf
+.PHONY: all clean cleanall help pdf pdf-print epub docx quarto-watch latex
 
-.PHONY: all clean cleanall watch help quarto epub docx quarto-watch quarto-clean latex tex
+all: pdf docx epub pdf-print
 
-# Default target: build all formats with Quarto (recommended)
-all:
-	quarto render
+$(OUTDIR):
+	mkdir -p $(OUTDIR)
 
-# Build PDF using Quarto (recommended)
-quarto:
-	quarto render --to pdf
+pdf: $(OUTDIR)
+	quarto render $(TARGET).qmd \
+		--to pdf \
+		--output $(PDF_OUT) \
+		--output-dir $(OUTDIR) \
+		--no-clean
 
-# Build EPUB using Quarto
-epub:
-	quarto render --to epub
+pdf-print: $(OUTDIR)
+	quarto render $(TARGET).qmd \
+		--to pdf-print \
+		--output $(PDF_PRINT_OUT) \
+		--output-dir $(OUTDIR) \
+		--no-clean
 
-# Build DOCX using Quarto
-docx:
-	quarto render --to docx
+docx: $(OUTDIR)
+	quarto render $(TARGET).qmd \
+		--to docx \
+		--output $(DOCX_OUT) \
+		--output-dir $(OUTDIR) \
+		--no-clean
 
-# Continuous compilation with Quarto (watch mode)
+epub: $(OUTDIR)
+	quarto render $(TARGET).qmd \
+		--to epub \
+		--output $(EPUB_OUT) \
+		--output-dir $(OUTDIR) \
+		--no-clean
 
 # Generate LaTeX files from Quarto (without building PDF)
-latex tex:
+latex:
 	quarto render --to latex
+
 quarto-watch:
 	quarto preview
 
-# Clean Quarto build artifacts
-quarto-clean:
-	rm -rf _output/
+# Clean build artifacts
+clean:
+	rm -rf $(OUTDIR)/
 	rm -f *.html
 	# Remove Quarto-generated LaTeX intermediates
 	rm -f index.tex index.aux index.log index.out index.toc index.bbl index.bcf index.blg index.run.xml index.synctex.gz
+	rm -f index-print.tex index-print.aux index-print.log
 
-# Legacy LaTeX targets (kept for backward compatibility)
-
-# Build the PDF using latexmk (deprecated)
-$(MAIN).pdf: $(MAIN).tex
-	latexmk -pdf -bibtex $(MAIN).tex
-
-# Alternative: manual build process (deprecated)
-manual:
-	$(LATEX) $(MAIN).tex
-	$(BIBER) $(MAIN)
-	$(LATEX) $(MAIN).tex
-	$(LATEX) $(MAIN).tex
-
-# Continuous compilation (watch mode) - deprecated
-watch:
-	latexmk -pdf -pvc -bibtex $(MAIN).tex
-
-# Clean auxiliary files (deprecated)
-clean: quarto-clean
-	latexmk -c
-	rm -f *.bbl *.bcf *.blg *.run.xml *.synctex.gz
-
-# Clean all generated files including PDF (deprecated)
-cleanall: quarto-clean
-	latexmk -C
-	rm -f *.bbl *.bcf *.blg *.run.xml *.synctex.gz
+cleanall: clean
 
 # Help target
 help:
-	@echo "Quarto targets (recommended):"
-	@echo "  make           - Build all formats (PDF, EPUB, DOCX) with Quarto (default)"
-	@echo "  make quarto    - Build PDF only"
+	@echo "Quarto targets:"
+	@echo "  make           - Build all formats (screen PDF, print PDF, EPUB, DOCX) (default)"
+	@echo "  make pdf       - Build screen PDF only"
+	@echo "  make pdf-print - Build print-optimized PDF (chapters start on odd pages)"
 	@echo "  make epub      - Build EPUB only"
 	@echo "  make docx      - Build DOCX only"
 	@echo "  make latex     - Generate LaTeX files from Quarto (no PDF)"
 	@echo "  make quarto-watch - Live preview with Quarto"
-	@echo "  make quarto-clean  - Clean Quarto build artifacts"
 	@echo ""
-	@echo "Legacy LaTeX targets (deprecated):"
-	@echo "  make manual    - Build using manual pdflatex/biber commands"
-	@echo "  make watch     - Continuous compilation in LaTeX"
-	@echo "  make clean     - Remove auxiliary files (keep PDF)"
-	@echo "  make cleanall  - Remove all generated files including PDF"
+	@echo "Clean targets:"
+	@echo "  make clean     - Remove all build artifacts"
+	@echo "  make cleanall  - Same as clean"
+	@echo ""
 	@echo "  make help      - Show this help message"

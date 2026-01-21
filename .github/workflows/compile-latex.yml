@@ -18,31 +18,42 @@ jobs:
       with:
         tinytex: true
     
-    - name: Build dissertation (all formats)
-      run: quarto render
+    - name: Set date variable
+      run: echo "BUILD_DATE=$(date +%Y-%m-%d)" >> $GITHUB_ENV
     
-    - name: Upload PDF artifact
+    - name: Build all formats
+      run: make
+    
+    - name: Upload Screen PDF
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: dissertation-pdf
-        path: _output/Dissertation-Title.pdf
+        name: dissertation-pdf-screen
+        path: build/thesis-${{ env.BUILD_DATE }}.pdf
         retention-days: 30
     
-    - name: Upload EPUB artifact
+    - name: Upload Print PDF
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: dissertation-pdf-print
+        path: build/thesis-${{ env.BUILD_DATE }}-printing.pdf
+        retention-days: 30
+    
+    - name: Upload EPUB
       uses: actions/upload-artifact@v4
       if: always()
       with:
         name: dissertation-epub
-        path: _output/Dissertation-Title.epub
+        path: build/thesis-${{ env.BUILD_DATE }}.epub
         retention-days: 30
     
-    - name: Upload DOCX artifact
+    - name: Upload DOCX
       uses: actions/upload-artifact@v4
       if: always()
       with:
         name: dissertation-docx
-        path: _output/Dissertation-Title.docx
+        path: build/thesis-${{ env.BUILD_DATE }}.docx
         retention-days: 30
     
     - name: Upload to release (on tag)
@@ -50,8 +61,9 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
       with:
         files: |
-          _output/Dissertation-Title.pdf
-          _output/Dissertation-Title.epub
-          _output/Dissertation-Title.docx
+          build/thesis-${{ env.BUILD_DATE }}.pdf
+          build/thesis-${{ env.BUILD_DATE }}-printing.pdf
+          build/thesis-${{ env.BUILD_DATE }}.epub
+          build/thesis-${{ env.BUILD_DATE }}.docx
         name: Dissertation Build ${{ github.ref_name }}
         prerelease: false
