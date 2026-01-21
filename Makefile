@@ -10,7 +10,7 @@ BIBER = biber
 # Quarto output
 QUARTO_OUT = dissertation.pdf
 
-.PHONY: all clean cleanall watch help quarto quarto-watch quarto-clean
+.PHONY: all clean cleanall watch help quarto quarto-watch quarto-cleanlatex tex
 
 # Default target: build with Quarto (recommended)
 all: quarto
@@ -20,6 +20,10 @@ quarto:
 	quarto render --to pdf
 
 # Continuous compilation with Quarto (watch mode)
+
+# Generate LaTeX files from Quarto (without building PDF)
+latex tex:
+	quarto render --to latex
 quarto-watch:
 	quarto preview
 
