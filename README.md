@@ -1,138 +1,148 @@
 # Quarto Dissertation Template
 
-This repository provides a comprehensive and adaptable Quarto-based template
-designed specifically for academic theses and dissertations. It facilitates
-authoring in Markdown while leveraging Quarto's advanced capabilities for
-managing citations, cross-references, and figures. The template supports
-compilation into multiple formats for diverse dissemination requirements.
+A comprehensive Quarto-based template for academic theses and dissertations.
+Write in Markdown with full support for citations, cross-references, and
+figures. Compile to multiple output formats from a single source.
 
 ## Features
 
-The template is equipped with several notable features:
+- **Multiple Output Formats**: PDF (screen & print), DOCX, and EPUB from one
+  source
+- **Screen-Optimized PDF**: Single-sided layout with continuous pagination for
+  digital reading
+- **Print-Optimized PDF**: Traditional two-sided book layout with chapters on
+  odd pages
+- **Automated Builds**: GitHub Actions compiles all formats on every push
+- **LaTeX Export**: Generate `.tex` files for fine-grained control
+- **Live Preview**: Real-time updates while writing with `quarto preview`
 
-- **Multi-format Output**: Generate outputs in PDF (screen or print), DOCX,
-  and EPUB from a single source.
-- **1 Sided, Screen-Optimized PDF**: Continuous pagination layout for ease of digital
-  reading and single-sided printing.
-- **2 Sided Print-Optimized PDF**: Traditional layout with chapters beginning on odd
-  pages.
-- **Automated Build Process**: Utilizes GitHub Actions to compile all formats
-  upon each repository update.
-- **LaTeX Export Functionality**: Produces `.tex` files for those who require
-  fine-grained customization control.
-- **Real-Time Preview**: Allows for live updates and previews during the
-  writing process.
+## Quick Start
 
-## Integration with GitHub Actions
+Build all formats:
 
-An integrated GitHub Actions workflow ensures seamless and automated
-compilation whenever modifications are pushed to the repository's `main`
-branch.
+```bash
+make
+```
 
-### Workflow Specifications
+This creates datestamped files in `build/`:
 
-- Installs Quarto and TinyTeX (a lightweight TeX environment).
-- Renders chapters into diverse output formats (PDF, DOCX, EPUB).
-- Ensures seamless citation management through the
-  `bibliography/Dissertation.bib`.
-- Provides downloadable output files, accessible from the Actions workflow for
-  up to 30 days.
-- Optionally, associates compiled files with GitHub release tags.
+- `thesis-2026-01-22.pdf` (screen-optimized)
+- `thesis-2026-01-22-printing.pdf` (print-optimized)
+- `thesis-2026-01-22.docx`
+- `thesis-2026-01-22.epub`
 
-### Access Instructions
+Individual formats:
 
-- Navigate to the **Actions** tab of the repository.
-- Select the desired workflow run.
-- Download compiled outputs (e.g., PDF, DOCX, EPUB) directly from the
-  provided links.
+```bash
+make pdf        # Screen-optimized PDF
+make pdf-print  # Print-optimized PDF
+make docx       # Word document
+make epub       # EPUB e-book
+make latex      # Generate .tex files without compiling
+```
 
-## Repository Structure
+Live preview:
 
-The project is organized for clarity and convenience:
-
-- **`index.qmd`**: Contains front matter, including the title page and
-  abstract.
-- **`_quarto.yml`**: Houses the project's configuration settings.
-- **`chapters/`**: Contains Markdown-formatted files for each chapter.
-- **`figures/`**: A repository for images and figures referenced in the
-  document.
-- **`bibliography/`**: Stores references in the BibTeX format.
-- **`build/`**: Outputs directory for compiled files, created
-  programmatically.
-- **`.vscode/`**: Specific settings for VS Code integration, particularly with
-  LaTeX Workshop.
-
-## Document Compilation
-
-### Using the Makefile
-
-To expedite the compilation process, a `Makefile` provides predefined commands.
+```bash
+make quarto-watch  # or: quarto preview
+```
 
 
-1. Compile all formats:
+## Project Structure
 
-   ```bash
-   make
-   ```
+- **`index.qmd`**: Title page and abstract
+- **`_quarto.yml`**: Project configuration
+- **`chapters/`**: Chapter files in Markdown (`.qmd`)
+  - `01_introduction.qmd` through `06_conclusion.qmd`
+  - `07_references.qmd` — Bibliography (placed between Conclusion and
+    Appendices)
+- **`appendices/`**: Appendix files
+  - `appendix_a.qmd`
+- **`figures/`**: Images and figures
+- **`bibliography/`**: Bibliography file (`references.bib`)
+- **`settings/`**: LaTeX customization (`preamble.tex`)
+- **`build/`**: Output directory (created by Makefile)
 
-2. Compile specific formats:
+## GitHub Actions
 
-   ```bash
-   make pdf        # Continuous-page PDF
-   make pdf-print  # Book-style PDF
-   make docx       # DOCX format
-   make epub       # EPUB format
-   ```
+The repository includes automated CI/CD that compiles all formats when you push
+to `main`:
 
-### Using Quarto Directly
+1. Installs Quarto and TinyTeX
+2. Builds PDF, DOCX, and EPUB outputs
+3. Uploads artifacts (available for 30 days)
+4. Optionally attaches outputs to GitHub releases
 
-1. Render all formats:
+**To download compiled files:**
 
-   ```bash
-   quarto render
-   ```
+1. Go to the **Actions** tab
+2. Click the latest workflow run
+3. Download artifacts from the workflow summary
 
-2. Preview updates live:
+## Editing Content
 
-   ```bash
-   quarto preview
-   ```
+**Chapters**: Edit `.qmd` files in `chapters/`. Use Markdown with embedded
+LaTeX math, citations, and cross-references.
 
-## Working with LaTeX
+**Citations**: Add entries to `bibliography/references.bib` in BibTeX format.
+Reference with `[@citationKey]`. The bibliography appears automatically in the
+References chapter.
 
-For those requiring enhanced LaTeX manipulation:
+**Figures**:
 
-1. Export `.tex` files:
+```markdown
+![Caption text](../figures/my-figure.png){#fig-label}
+```
 
-   ```bash
-   make latex
-   ```
+Cross-reference with `@fig-label`.
 
-2. After export, perform manual LaTeX adjustments and compile using:
+**Math**:
 
-   ```bash
-   pdflatex index.tex
-   ```
+- Inline: `$E = mc^2$`
+- Display: Use LaTeX equation environments with labels for cross-references
 
-Note: Subsequent updates will overwrite `.tex` files.
+**Tables**: Use Markdown tables or Quarto's table syntax. Label with
+`{#tbl-label}` and reference with `@tbl-label`.
 
-## Content Customization
+## Advanced: LaTeX Export
 
-1. **Chapters**: Edit source Markdown files (`.qmd`) inside `chapters/`.
-2. **Citations**: Manage bibliographic entries with BibTeX format in `bibliography/`.
-3. **Figures & Tables**: Store visuals in `figures/` and use Quarto's cross-referencing.
-4. **Equations**: Incorporate mathematical notation as inline or block elements.
+For fine-grained control (e.g., journal submission requirements):
+
+```bash
+make latex
+```
+
+This generates `.tex` files without compiling. You can then edit the LaTeX
+directly and compile manually:
+
+```bash
+pdflatex index.tex
+biber index
+pdflatex index.tex
+pdflatex index.tex
+```
+
+**Note**: LaTeX export is one-way. Changes to `.tex` files are overwritten on
+the next `make latex`.
 
 ## Configuration
 
-Modify `_quarto.yml` to:
+Edit `_quarto.yml` to customize:
 
-- Update metadata (title, author, etc.).
-- Set chapter order and formatting specifications.
-- Adjust bibliography paths.
+- Title, author, and metadata
+- Chapter order
+- PDF formatting (margins, font size, line spacing)
+- Bibliography settings
+- Output formats
 
-## Resources and References
+**PDF variants:**
 
-- [Quarto Documentation](https://quarto.org/docs/books/)
-- [Quarto PDF Guides](https://quarto.org/docs/output-formats/pdf-basics.html)
-- [Citation Syntax](https://quarto.org/docs/authoring/footnotes-and-citations.html)
+- `pdf`: Screen-optimized with `classoption: [oneside, openany]`
+- `pdf-print`: Print-optimized (default book class)
+
+## Resources
+
+- [Quarto Books](https://quarto.org/docs/books/)
+- [PDF Customization](https://quarto.org/docs/output-formats/pdf-basics.html)
+- [Citations](https://quarto.org/docs/authoring/footnotes-and-citations.html)
+
