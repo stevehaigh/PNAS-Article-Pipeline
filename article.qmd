@@ -1,0 +1,133 @@
+---
+title: "Title of Your PNAS Article"
+author:
+  - name: "Author One"
+    affil: "a,c"
+    orcid: "0000-0000-0000-0000"
+  - name: "Author Two"
+    affil: "b"
+    orcid: "0000-0000-0000-0001"
+    corresponding: true
+    email: "author.two@email.com"
+  - name: "Author Three"
+    affil: "a"
+affiliations:
+  - id: a
+    name: "Department, Institution One, City, State, ZIP/Postal Code, Country"
+  - id: b
+    name: "Department, Institution Two, City, State, ZIP/Postal Code, Country"
+  - id: c
+    name: "Additional Affiliation, Institution Three, City, State, ZIP/Postal Code, Country"
+keywords: ["Keyword 1", "Keyword 2", "Keyword 3", "Keyword 4"]
+classification: "Biological Sciences - Biophysics and Computational Biology"
+date: last-modified
+format:
+  pdf:
+    cite-method: biblatex
+  docx: default
+  html: default
+---
+
+## Abstract {.unnumbered}
+
+Your abstract goes here (maximum 250 words). Provide a clear and concise summary of the study's purpose, methods, key findings, and significance. The abstract should be understandable to a broad scientific audience and must be written in a single paragraph. References in the abstract must be cited in full within the abstract itself.
+
+## Significance Statement {.unnumbered}
+
+Your significance statement goes here (50-120 words). Explain the relevance and importance of your work in broad context to a readership outside your specific field. Focus on why this research matters and what new insights it provides. Write at a level understandable to an undergraduate-educated scientist.
+
+## Introduction {.unnumbered}
+
+**Do not** include the word "Introduction" as a section heading (PNAS style). Start your introduction text here without a heading.
+
+Provide background and context for your research. Establish the problem or gap in knowledge that your study addresses. Keep this section concise—PNAS articles emphasize brevity.
+
+Cite references like this [@smith2020] or [@jones2019; @brown2021].
+
+## Results
+
+Present your main findings in a logical sequence. Use subsections as needed to organize the content. PNAS encourages results-first presentation.
+
+### Subsection 1
+
+Results text here. Reference figures like @fig-example1 and tables like @tbl-example1.
+
+![Example figure caption. Describe what is shown clearly and concisely.](figures/example.png){#fig-example1 width=80%}
+
+### Subsection 2
+
+Continue with additional results.
+
+| Parameter | Value | Unit |
+|-----------|-------|------|
+| A | 1.23 | m/s |
+| B | 4.56 | kg |
+| C | 7.89 | °C |
+
+: Example table caption. {#tbl-example1}
+
+## Discussion
+
+Interpret your results in the context of existing knowledge. Address the significance and implications of your findings. Discuss limitations and future directions. Keep this section focused and avoid excessive speculation.
+
+## Materials and Methods {.unnumbered}
+
+Provide sufficient methodological detail to allow others to reproduce your work. PNAS places methods at the end of the article. If methods are particularly extensive, consider moving detailed protocols to the Supporting Information.
+
+### Study Design
+
+Describe your experimental or computational approach.
+
+### Data Collection
+
+Detail how data were collected, including sample sizes, equipment, and protocols.
+
+### Statistical Analysis
+
+Describe statistical methods and software used. Report significance thresholds (e.g., P < 0.05).
+
+### Ethics Statement
+
+If applicable, identify the institutional review board (IRB) or ethics committee that approved the study. Describe informed consent procedures for human participants or animal care protocols.
+
+## Data Availability {.unnumbered}
+
+State how readers can access your data, code, and materials. PNAS requires data sharing in public repositories. Example: "All data and analysis code are available at [repository URL]. Raw sequencing data have been deposited in the NCBI Sequence Read Archive under accession number XXXXX."
+
+## Acknowledgments {.unnumbered}
+
+Acknowledge funding sources, technical assistance, and other contributions. Do not include acknowledgments in the Supporting Information.
+
+Example: "This work was supported by National Institutes of Health Grant R01-XXXXXX. We thank [Name] for technical assistance."
+
+## References {.unnumbered}
+
+::: {#refs}
+:::
+
+---
+
+## Supporting Information {.page-break-before}
+
+**Note**: Supporting Information (SI) should typically be a separate document. This section is included here as a placeholder to show the structure. In practice, create a separate `si-appendix.qmd` file.
+
+### SI Materials and Methods
+
+Extended methodological details that are essential but too lengthy for the main text.
+
+### SI Figures
+
+![SI Figure 1 caption.](figures/si-figure1.png){#fig-si1}
+
+### SI Tables
+
+| Parameter | Condition 1 | Condition 2 |
+|-----------|-------------|-------------|
+| X | 1.0 | 2.0 |
+| Y | 3.0 | 4.0 |
+
+: SI Table 1 caption. {#tbl-si1}
+
+### SI References
+
+Additional references cited only in the SI.

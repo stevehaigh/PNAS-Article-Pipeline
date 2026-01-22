@@ -1,76 +1,59 @@
-# Makefile for Quarto Dissertation
+# Makefile for PNAS Article
 
-TARGET = index
+ARTICLE = article
+SI = si-appendix
 OUTDIR = build
 DATE := $(shell date +%Y-%m-%d)
 
-PDF_OUT       = thesis-$(DATE).pdf
-PDF_PRINT_OUT = thesis-$(DATE)-printing.pdf
-DOCX_OUT      = thesis-$(DATE).docx
-EPUB_OUT      = thesis-$(DATE).epub
+ARTICLE_PDF = article-$(DATE).pdf
+ARTICLE_DOCX = article-$(DATE).docx
+ARTICLE_HTML = article-$(DATE).html
+SI_PDF = si-appendix-$(DATE).pdf
 
-.PHONY: all clean help pdf pdf-print epub docx quarto-watch latex
+.PHONY: all clean cleanall help pdf docx html si watch latex
 
-all: pdf docx epub pdf-print
+all: pdf si
 
 $(OUTDIR):
 	mkdir -p $(OUTDIR)
 
 pdf: $(OUTDIR)
-	quarto render $(TARGET).qmd \
-		--to pdf \
-		--output $(PDF_OUT) \
-		--output-dir $(OUTDIR) \
-		--no-clean
-
-pdf-print: $(OUTDIR)
-	quarto render $(TARGET).qmd \
-		--to pdf-print \
-		--output $(PDF_PRINT_OUT) \
-		--output-dir $(OUTDIR) \
-		--no-clean
+	quarto render $(ARTICLE).qmd --to pdf --output $(ARTICLE_PDF) --output-dir $(OUTDIR)
 
 docx: $(OUTDIR)
-	quarto render $(TARGET).qmd \
-		--to docx \
-		--output $(DOCX_OUT) \
-		--output-dir $(OUTDIR) \
-		--no-clean
+	quarto render $(ARTICLE).qmd --to docx --output $(ARTICLE_DOCX) --output-dir $(OUTDIR)
 
-epub: $(OUTDIR)
-	quarto render $(TARGET).qmd \
-		--to epub \
-		--output $(EPUB_OUT) \
-		--output-dir $(OUTDIR) \
-		--no-clean
+html: $(OUTDIR)
+	quarto render $(ARTICLE).qmd --to html --output $(ARTICLE_HTML) --output-dir $(OUTDIR)
 
-# Generate LaTeX files from Quarto (without building PDF)
+si: $(OUTDIR)
+	quarto render $(SI).qmd --to pdf --output $(SI_PDF) --output-dir $(OUTDIR)
+
 latex:
-	quarto render --to latex
+	quarto render $(ARTICLE).qmd --to latex
 
-quarto-watch:
-	quarto preview
+watch:
+	quarto preview $(ARTICLE).qmd
 
-# Clean build artifacts
+quarto-watch: watch
+
 clean:
-	rm -rf $(OUTDIR)/
-	rm -f *.html
-	# Remove Quarto-generated LaTeX intermediates
-	rm -f index.tex index.aux index.log index.out index.toc index.bbl index.bcf index.blg index.run.xml index.synctex.gz
-	rm -f index-print.tex index-print.aux index-print.log
+	rm -rf $(OUTDIR)
+	rm -f *.aux *.bbl *.blg *.log *.out *.toc *.lof *.lot
+	rm -f *.fdb_latexmk *.fls *.synctex.gz
 
-# Help target
+cleanall: clean
+	rm -f *.tex *.pdf *.docx *.html
+
 help:
-	@echo "Quarto targets:"
-	@echo "  make           - Build all formats (screen PDF, print PDF, EPUB, DOCX) (default)"
-	@echo "  make pdf       - Build screen PDF only"
-	@echo "  make pdf-print - Build print-optimized PDF (chapters start on odd pages)"
-	@echo "  make epub      - Build EPUB only"
-	@echo "  make docx      - Build DOCX only"
-	@echo "  make latex     - Generate LaTeX files from Quarto (no PDF)"
-	@echo "  make quarto-watch - Live preview with Quarto"
-	@echo ""
-	@echo "Clean targets:"
-	@echo "  make clean     - Remove all build artifacts"
-	@echo ""
-	@echo "  make help      - Show this help message"
+	@echo "Available targets:"
+	@echo "  all          - Build article PDF and SI (default)"
+	@echo "  pdf          - Build article PDF"
+	@echo "  docx         - Build article DOCX"
+	@echo "  html         - Build article HTML"
+	@echo "  si           - Build Supporting Information PDF"
+	@echo "  latex        - Generate LaTeX source from Quarto"
+	@echo "  watch        - Live preview with auto-reload"
+	@echo "  clean        - Remove build artifacts"
+	@echo "  cleanall     - Remove all generated files"
+	@echo "  help         - Show this help message"

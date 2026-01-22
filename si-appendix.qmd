@@ -1,0 +1,55 @@
+---
+title: "Supporting Information for: [Article Title]"
+author: "Author One, Author Two, Author Three"
+format:
+  pdf:
+    documentclass: article
+    papersize: letter
+    fontsize: 10pt
+    geometry:
+      - margin=1in
+    number-sections: true
+    keep-tex: true
+  docx: default
+bibliography: bibliography/references.bib
+---
+
+# SI Materials and Methods
+
+Provide extended methodological details here. This section should include protocols, procedures, and technical information that are essential for reproducibility but too detailed for the main manuscript.
+
+## Detailed Protocol 1
+
+Step-by-step procedures...
+
+## Computational Methods
+
+Algorithms, software versions, parameters...
+
+# SI Results
+
+## Additional Analyses
+
+Present supplementary analyses that support the main findings.
+
+# SI Figures
+
+![**Figure S1.** Extended caption describing the supplementary figure in detail.](figures/si-figure1.png){#fig-s1 width=80%}
+
+![**Figure S2.** Another supplementary figure.](figures/si-figure2.png){#fig-s2 width=80%}
+
+# SI Tables
+
+| Parameter | Condition A | Condition B | Condition C |
+|-----------|-------------|-------------|-------------|
+| Measurement 1 | 1.23 ± 0.05 | 2.34 ± 0.08 | 3.45 ± 0.12 |
+| Measurement 2 | 4.56 ± 0.15 | 5.67 ± 0.20 | 6.78 ± 0.25 |
+
+: **Table S1.** Extended data table with detailed measurements. {#tbl-s1}
+
+# SI References
+
+Additional references cited only in the Supporting Information (if different from main references).
+
+::: {#refs}
+:::

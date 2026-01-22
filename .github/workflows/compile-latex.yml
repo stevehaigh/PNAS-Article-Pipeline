@@ -1,4 +1,4 @@
-name: Build Dissertation (All Formats)
+name: Build PNAS Article
 
 on:
   push:
@@ -21,39 +21,23 @@ jobs:
     - name: Set date variable
       run: echo "BUILD_DATE=$(date +%Y-%m-%d)" >> $GITHUB_ENV
     
-    - name: Build all formats
+    - name: Build article and SI
       run: make
     
-    - name: Upload Screen PDF
+    - name: Upload Article PDF
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: dissertation-pdf-screen
-        path: build/thesis-${{ env.BUILD_DATE }}.pdf
+        name: pnas-article-pdf
+        path: build/article-${{ env.BUILD_DATE }}.pdf
         retention-days: 30
     
-    - name: Upload Print PDF
+    - name: Upload SI PDF
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: dissertation-pdf-print
-        path: build/thesis-${{ env.BUILD_DATE }}-printing.pdf
-        retention-days: 30
-    
-    - name: Upload EPUB
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: dissertation-epub
-        path: build/thesis-${{ env.BUILD_DATE }}.epub
-        retention-days: 30
-    
-    - name: Upload DOCX
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: dissertation-docx
-        path: build/thesis-${{ env.BUILD_DATE }}.docx
+        name: pnas-si-pdf
+        path: build/si-appendix-${{ env.BUILD_DATE }}.pdf
         retention-days: 30
     
     - name: Upload to release (on tag)
@@ -61,9 +45,8 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
       with:
         files: |
-          build/thesis-${{ env.BUILD_DATE }}.pdf
-          build/thesis-${{ env.BUILD_DATE }}-printing.pdf
-          build/thesis-${{ env.BUILD_DATE }}.epub
-          build/thesis-${{ env.BUILD_DATE }}.docx
-        name: Dissertation Build ${{ github.ref_name }}
+          build/article-${{ env.BUILD_DATE }}.pdf
+          build/si-appendix-${{ env.BUILD_DATE }}.pdf
+        name: PNAS Article Build ${{ github.ref_name }}
         prerelease: false
+

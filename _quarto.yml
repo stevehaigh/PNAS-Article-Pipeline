@@ -1,53 +1,30 @@
 project:
-  type: book
+  type: default
   output-dir: build
-
-book:
-  title: "Feasibility of a Whole-Cell Model of the Human Platelet"
-  author: "S. A. Haigh"
-  date: today
-  chapters:
-    - index.qmd
-    - chapters/01_introduction.qmd
-    - chapters/02_literature_review.qmd
-    - chapters/03_methodology.qmd
-    - chapters/04_results.qmd
-    - chapters/05_discussion.qmd
-    - chapters/06_conclusion.qmd
-    - chapters/07_references.qmd
-  appendices:
-    - chapters/appendix_a.qmd
 
 bibliography: bibliography/references.bib
 
 format:
   pdf:
     pdf-engine: pdflatex
-    documentclass: book
-    classoption: [oneside, openany]
-    papersize: a4
-    fontsize: 12pt
+    documentclass: article
+    classoption: [twocolumn]
+    papersize: letter
+    fontsize: 9pt
     geometry:
-      - top=1in
-      - bottom=1in
-      - left=1in
-      - right=1in
-    linestretch: 1.5
-    number-sections: true
-  pdf-print:
-    pdf-engine: pdflatex
-    documentclass: book
-    papersize: a4
-    fontsize: 12pt
-    geometry:
-      - top=1in
-      - bottom=1in
-      - left=1in
-      - right=1in
-    linestretch: 1.5
-    number-sections: true
-    output-file: "${title}-print.pdf"
-  epub:
-    number-sections: true
+      - top=0.75in
+      - bottom=0.75in
+      - left=0.75in
+      - right=0.75in
+    linestretch: 1.0
+    number-sections: false
+    keep-tex: true
+    include-in-header:
+      text: |
+        \usepackage{times}
+        \usepackage{authblk}
   docx:
-    number-sections: true
+    number-sections: false
+  html:
+    toc: true
+    toc-depth: 2
