@@ -9,7 +9,7 @@ PDF_PRINT_OUT = thesis-$(DATE)-printing.pdf
 DOCX_OUT      = thesis-$(DATE).docx
 EPUB_OUT      = thesis-$(DATE).epub
 
-.PHONY: all clean cleanall help pdf pdf-print epub docx quarto-watch latex
+.PHONY: all clean help pdf pdf-print epub docx quarto-watch latex
 
 all: pdf docx epub pdf-print
 
@@ -59,8 +59,6 @@ clean:
 	rm -f index.tex index.aux index.log index.out index.toc index.bbl index.bcf index.blg index.run.xml index.synctex.gz
 	rm -f index-print.tex index-print.aux index-print.log
 
-cleanall: clean
-
 # Help target
 help:
 	@echo "Quarto targets:"
@@ -74,6 +72,5 @@ help:
 	@echo ""
 	@echo "Clean targets:"
 	@echo "  make clean     - Remove all build artifacts"
-	@echo "  make cleanall  - Same as clean"
 	@echo ""
 	@echo "  make help      - Show this help message"
